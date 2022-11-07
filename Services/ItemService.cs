@@ -2,40 +2,60 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using Eval_proy.DTO;
 using Eval_proy.Entities;
+
+/*172298042*/
 
 namespace Eval_proy.Services
 {
     public class ItemService : IItemService
     {
-        public Task AddItem(Item item)
+        private static List<Item> items = new()
         {
+            new Item { ItemId = Guid.NewGuid(), Name = "Potion", Description = "strong potion", Quantity = 1},
+            new Item { ItemId = Guid.NewGuid(), Name = "Iron Sword", Description = "weak iron sword", Quantity = 2},
+            new Item { ItemId = Guid.NewGuid(), Name = "Bronze Shield", Description = "best bronze shield", Quantity = 3}
+        };
+
+        public async Task AddItem(Item item)
+        {
+            items.Add(item);
+            await Task.CompletedTask;
+        }
+
+        public async Task DeleteItem(Guid id)
+        {
+            var index = items.FindIndex(existItem => existItem.ItemId == id);
+            items.RemoveAt(index);
+            await Task.CompletedTask;
+        }
+
+        public async Task<Item> GetItemById(Guid id)
+        {
+            var item = items.Where(item => item.ItemId == id).SingleOrDefault();
+            return await Task.FromResult(item);
+        }
+
+        public async Task<List<Item>> GetItemByUser(Guid id)
+        {
+            /*var item = new <List<ItemDTO>>();
+            item.Data = await items.Where(item => item.UserId.UserId == id).SingleOrDefault();
+            return item;*/
             throw new NotImplementedException();
         }
 
-        public Task DeleteItem(Guid id)
-        {
-            throw new NotImplementedException();
+        public async Task<List<Item>> GetItems()
+        {       
+            return  await Task.FromResult(items);
         }
 
-        public Task<Item> GetItemById(Guid id)
+        public async Task UpdateItem(Item item)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Item> GetItemByUser(User user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Item>> GetItems()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateItem(Item item)
-        {
-            throw new NotImplementedException();
+            var index = items.FindIndex(existItem => existItem.ItemId == item.ItemId);
+            items[index] = item;
+            await Task.CompletedTask;
         }
     }
 }

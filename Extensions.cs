@@ -9,7 +9,7 @@ namespace Eval_proy
 {
     public static class Extensions
     {
-        public static UserDTO AsDTO(this User user)
+        public static UserDTO UAsDTO(this User user)
         {
             return new UserDTO
             {
@@ -18,6 +18,17 @@ namespace Eval_proy
                 Class = user.Class,
                 Email = user.Email,
                 Phone = user.Phone
+            };
+        }
+        public static ItemDTO IAsDTO(this Item item)
+        {
+            return new ItemDTO
+            {
+                ItemId = item.ItemId,
+                Name = item.Name,
+                Description = item.Description,
+                Quantity = item.Quantity,
+                UserId = item.UserId
             };
         }
     }

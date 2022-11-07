@@ -12,8 +12,8 @@ namespace Eval_proy.Services
         Task AddItem(Item item);
         Task UpdateItem(Item item);
         Task<Item> GetItemById(Guid id);
-        Task<IEnumerable<Item>> GetItems();
-        Task<Item> GetItemByUser(User user);
+        Task<List<Item>> GetItems();
+        Task<List<Item>> GetItemByUser(Guid id);
         Task DeleteItem(Guid id);
     }
 }

@@ -8,7 +8,7 @@ namespace Eval_proy.Services
 {
     public class UserService : IUserService
     {
-        private readonly List<User> users = new()
+        private static List<User> users = new()
         {
             new User { UserId = Guid.NewGuid(), Name = "Diana Barrientos", Email = "dbarrientos@example.com", Phone = "1234567890"},
             new User { UserId = Guid.NewGuid(), Name = "Karina Ruiz", Email = "kruiz@example.com", Phone = "0987654321"},

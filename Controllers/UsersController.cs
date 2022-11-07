@@ -14,11 +14,11 @@ namespace Eval_proy.Controllers
     public class UsersController : ControllerBase
     {
 
-        private readonly IUserService _service;
+        private readonly IUserService _userService;
 
-        public UsersController(IUserService service)
+        public UsersController(IUserService userService)
         {
-            _service = service;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -32,20 +32,20 @@ namespace Eval_proy.Controllers
                 Email = userDTO.Email,
                 Phone = userDTO.Phone
             };
-            await _service.CreateUser(user);
+            await _userService.CreateUser(user);
 
-            return CreatedAtAction(nameof(GetUser), new{id = user.UserId}, user.AsDTO());
+            return CreatedAtAction(nameof(GetUser), new{id = user.UserId}, user.UAsDTO());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDTO>> GetUser(Guid id)
         {
-            var user = await _service.GetUser(id);
+            var user = await _userService.GetUser(id);
             if(user == null)
             {
                 return NotFound();
             }
-            return user.AsDTO();
+            return user.UAsDTO();
         }
 
         
@@ -53,7 +53,7 @@ namespace Eval_proy.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateUser(Guid id, UpdateUserDTO userDTO)
         {
-            var existUser = await _service.GetUser(id);
+            var existUser = await _userService.GetUser(id);
 
             if(existUser is null)
             {
@@ -67,7 +67,7 @@ namespace Eval_proy.Controllers
                 Phone = userDTO.Phone
             };
 
-            await _service.UpdateUser(updatedUser);
+            await _userService.UpdateUser(updatedUser);
 
             return NoContent();
         }
@@ -75,14 +75,14 @@ namespace Eval_proy.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(Guid id)
         {
-            var existUser = await _service.GetUser(id);
+            var existUser = await _userService.GetUser(id);
 
             if(existUser is null)
             {
                 return NotFound();
             }
 
-            await _service.DeleteUser(id);
+            await _userService.DeleteUser(id);
 
             return NoContent();
         }
