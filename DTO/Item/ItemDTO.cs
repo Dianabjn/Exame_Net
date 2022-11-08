@@ -8,10 +8,10 @@ namespace Eval_proy.DTO
 {
     public record ItemDTO
     {
-        public Guid ItemId {get; set;}
-        public string Name {get; set;}
-        public string Description {get; set;}
-        public int Quantity {get; set;}
-        public User? UserId {get; set;}
+        public Guid ItemId {get; init;}
+        public string Name {get; init;}
+        public string Description {get; init;}
+        public int Quantity {get; init;}
+        //public User? UserId {get; init;}
     }
 }

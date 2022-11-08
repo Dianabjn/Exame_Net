@@ -27,8 +27,8 @@ namespace Eval_proy
                 ItemId = item.ItemId,
                 Name = item.Name,
                 Description = item.Description,
-                Quantity = item.Quantity,
-                UserId = item.UserId
+                Quantity = item.Quantity
+                //UserId = item.UserId
             };
         }
     }

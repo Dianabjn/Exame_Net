@@ -15,6 +15,6 @@ namespace Eval_proy.Entities
         public UsTyClass Class {get; set;} = UsTyClass.General;
         public string Email {get; set;} = string.Empty;
         public string Phone {get; set;} = string.Empty;
-        public List<Item>? Items {get; set;}
+        //public List<Item>? Items {get; set;}
     }
 }

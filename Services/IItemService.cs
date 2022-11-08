@@ -13,7 +13,7 @@ namespace Eval_proy.Services
         Task UpdateItem(Item item);
         Task<Item> GetItemById(Guid id);
         Task<List<Item>> GetItems();
-        Task<List<Item>> GetItemByUser(Guid id);
+        //Task<List<Item>> GetItemByUser(Guid id);
         Task DeleteItem(Guid id);
     }
 }
