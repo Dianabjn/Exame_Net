@@ -16,6 +16,6 @@ namespace Eval_proy.DTO
         [Required]
         public int Quantity {get; init;}
         [Required]
-        public User? UserId {get; init;}
+        public User? UsId {get; init;}
     }
 }

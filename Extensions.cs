@@ -29,7 +29,7 @@ namespace Eval_proy
                 Name = item.Name,
                 Description = item.Description,
                 Quantity = item.Quantity,
-                UserId = item.UserId
+                UsId = item.UsId
             };
         }
     }
