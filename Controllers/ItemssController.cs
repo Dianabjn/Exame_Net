@@ -14,11 +14,11 @@ namespace Eval_proy.Controllers
     public class ItemsController : ControllerBase
     {
 
-        private readonly IItemService _serviceItem;
+        private readonly IItemService _itemService;
 
-        public ItemsController(IItemService serviceItem)
+        public ItemsController(IItemService itemService)
         {
-            _serviceItem = serviceItem;
+            _itemService = itemService;
         }
 
         [HttpPost]
@@ -32,7 +32,7 @@ namespace Eval_proy.Controllers
                 Quantity = itemDTO.Quantity,
                 
             };
-            await _serviceItem.AddItem(item);
+            await _itemService.AddItem(item);
 
             return CreatedAtAction(nameof(GetItemById), new{id = item.ItemId}, item.IAsDTO());
         }
@@ -40,7 +40,7 @@ namespace Eval_proy.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ItemDTO>> GetItemById(Guid id)
         {
-            var item = await _serviceItem.GetItemById(id);
+            var item = await _itemService.GetItemById(id);
             if(item == null)
             {
                 return NotFound();
@@ -51,7 +51,7 @@ namespace Eval_proy.Controllers
         [HttpGet]
         public async Task<IEnumerable<ItemDTO>> GetItems()
         {
-            var items = (await _serviceItem.GetItems())
+            var items = (await _itemService.GetItems())
                             .Select(item => item.IAsDTO());
             return items;
         }
@@ -59,7 +59,7 @@ namespace Eval_proy.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateItem(Guid id, UpdateItemDTO itemDTO)
         {
-            var existItem = await _serviceItem.GetItemById(id);
+            var existItem = await _itemService.GetItemById(id);
 
             if(existItem is null)
             {
@@ -72,7 +72,7 @@ namespace Eval_proy.Controllers
                 Quantity = itemDTO.Quantity
             };
 
-            await _serviceItem.UpdateItem(updatedItem);
+            await _itemService.UpdateItem(updatedItem);
 
             return NoContent();
         }
@@ -80,14 +80,14 @@ namespace Eval_proy.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteItem(Guid id)
         {
-            var existItem = await _serviceItem.GetItemById(id);
+            var existItem = await _itemService.GetItemById(id);
 
             if(existItem is null)
             {
                 return NotFound();
             }
 
-            await _serviceItem.DeleteItem(id);
+            await _itemService.DeleteItem(id);
 
             return NoContent();
         }

@@ -14,6 +14,7 @@ namespace Eval_proy.DTO
         public UsTyClass Class {get; init;}
         public string Email {get; init;}
         public string Phone {get; init;}
+        public List<Item>? Items {get; init;}
         
     }
 }

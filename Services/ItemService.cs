@@ -38,13 +38,13 @@ namespace Eval_proy.Services
             return await Task.FromResult(item);
         }
 
-        /*public async Task<List<Item>> GetItemByUser(Guid id)
+        public async Task<List<Item>> GetItemByUser(Guid id)
         {
-            var item = new <List<ItemDTO>>();
+            /*var item = new <List<ItemDTO>>();
             item.Data = await items.Where(item => item.UserId.UserId == id).SingleOrDefault();
-            return item;
+            return item;*/
             throw new NotImplementedException();
-        }*/
+        }
 
         public async Task<List<Item>> GetItems()
         {       

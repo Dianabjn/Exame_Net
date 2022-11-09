@@ -15,5 +15,7 @@ namespace Eval_proy.DTO
         public string Description {get; init;}
         [Required]
         public int Quantity {get; init;}
+        [Required]
+        public User? UserId {get; init;}
     }
 }
