@@ -13,7 +13,6 @@ namespace Eval_proy.Data
         {
 
         }
-
         public DbSet<Item> Items => Set<Item>();
         public DbSet<User> Users => Set<User>();
     }

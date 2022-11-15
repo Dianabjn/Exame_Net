@@ -17,8 +17,7 @@ namespace Eval_proy
                 Name = user.Name,
                 Class = user.Class,
                 Email = user.Email,
-                Phone = user.Phone,
-                Items = user.Items
+                Phone = user.Phone
             };
         }
         public static ItemDTO IAsDTO(this Item item)
@@ -28,8 +27,7 @@ namespace Eval_proy
                 ItemId = item.ItemId,
                 Name = item.Name,
                 Description = item.Description,
-                Quantity = item.Quantity,
-                UsId = item.UsId
+                Quantity = item.Quantity
             };
         }
     }

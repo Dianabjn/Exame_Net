@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Eval_proy.Entities;
 
 namespace Eval_proy.DTO
@@ -14,7 +15,6 @@ namespace Eval_proy.DTO
         public UsTyClass Class {get; init;}
         public string Email {get; init;}
         public string Phone {get; init;}
-        public List<Item>? Items {get; init;}
         
     }
 }

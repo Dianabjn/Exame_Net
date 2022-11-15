@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using Eval_proy.DTO;
 using Eval_proy.Entities;
+using Eval_proy.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 /*172298042*/
 
@@ -19,10 +22,20 @@ namespace Eval_proy.Services
             new Item { ItemId = Guid.NewGuid(), Name = "Bronze Shield", Description = "best bronze shield", Quantity = 3}
         };
 
+        private readonly DataContext _context;
+        public ItemService (DataContext context)
+        {
+            _context = context;
+        }
+
         public async Task AddItem(Item item)
         {
             items.Add(item);
             await Task.CompletedTask;
+            /*
+            _context.Items.Add(item);
+            await _context.SaveChangesAsync();
+            return (await _context.Items.ToListAsync());*/
         }
 
         public async Task DeleteItem(Guid id)

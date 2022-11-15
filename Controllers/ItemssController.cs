@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Eval_proy.Data;
 using Eval_proy.DTO;
 using Eval_proy.Entities;
-using Eval_proy.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Eval_proy.Controllers
 {
@@ -13,84 +14,84 @@ namespace Eval_proy.Controllers
     [Route("items")]
     public class ItemsController : ControllerBase
     {
-
-        private readonly IItemService _itemService;
-
-        public ItemsController(IItemService itemService)
+        private readonly DataContext _context;
+        public ItemsController (DataContext context)
         {
-            _itemService = itemService;
+            _context = context;
         }
 
         [HttpPost]
-        public async Task<ActionResult<ItemDTO>> CreateItem(CreateItemDTO itemDTO)
+        public async Task<ActionResult> CreateItem(CreateItemDTO itemDTO)
         {
+            var user = await _context.Users.FindAsync(itemDTO.UsId);
+
+            if(user == null)
+            {
+                return BadRequest("User not found");
+            }
+
             Item item = new()
             {
                 ItemId = Guid.NewGuid(),
                 Name = itemDTO.Name,
                 Description = itemDTO.Description,
-                Quantity = itemDTO.Quantity,
-                
+                Quantity = itemDTO.Quantity
             };
-            await _itemService.AddItem(item);
-
-            return CreatedAtAction(nameof(GetItemById), new{id = item.ItemId}, item.IAsDTO());
+            _context.Items.Add(item);
+            user.Items.Add(item);
+            await _context.SaveChangesAsync();
+            return Ok(); 
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ItemDTO>> GetItemById(Guid id)
+        public async Task<ActionResult<ItemDTO>> GetItem(Guid id)
         {
-            var item = await _itemService.GetItemById(id);
+            var item = await _context.Items.FindAsync(id);
             if(item == null)
             {
-                return NotFound();
+                return BadRequest("Item not found");
             }
-            return item.IAsDTO();
+            return Ok(item);
         }
-
+        
         [HttpGet]
-        public async Task<IEnumerable<ItemDTO>> GetItems()
+        public async Task<ActionResult<List<ItemDTO>>> GetItems()
         {
-            var items = (await _itemService.GetItems())
-                            .Select(item => item.IAsDTO());
-            return items;
+            return Ok(await _context.Items.ToListAsync());
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateItem(Guid id, UpdateItemDTO itemDTO)
         {
-            var existItem = await _itemService.GetItemById(id);
+            var existItem = await _context.Items.FindAsync(id);
 
             if(existItem is null)
             {
                 return NotFound();
             }
-            
-            Item updatedItem = existItem with{
-                Name = itemDTO.Name,
-                Description = itemDTO.Description,
-                Quantity = itemDTO.Quantity
-            };
 
-            await _itemService.UpdateItem(updatedItem);
+            existItem.Name = itemDTO.Name;
+            existItem.Description = itemDTO.Description;
+            existItem.Quantity = itemDTO.Quantity;
 
-            return NoContent();
+            await _context.SaveChangesAsync();
+            return Ok(); 
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteItem(Guid id)
         {
-            var existItem = await _itemService.GetItemById(id);
+            var existItem = await _context.Items.FindAsync(id);
 
             if(existItem is null)
             {
                 return NotFound();
             }
 
-            await _itemService.DeleteItem(id);
+            _context.Items.Remove(existItem);
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
-
     }
 }
